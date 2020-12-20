@@ -38,3 +38,8 @@ document.querySelector('._dropdown').addEventListener('click', () => {
   document.querySelectorAll('._dropdown.active ._flat-button').forEach(button => button.addEventListener('click', buttonFunc));
 });
 
+const openTodo = (e) => {
+  document.getElementById('_todo-section').classList.add('active');
+
+}
+
