@@ -46,10 +46,9 @@ const openTodo = () => {
 document.getElementById('_todo-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
 
 const autoSave = (e) => {
-  console.log(e);
   e.target.parentNode.querySelector('.__auto-save').classList.add('active');
   setTimeout(() => {
-    alert('Autosaved Successfully');
+    console.log('autosaved successfully');
     e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
   }, 5000);
 }
