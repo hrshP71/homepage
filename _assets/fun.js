@@ -38,8 +38,18 @@ document.querySelector('._dropdown').addEventListener('click', () => {
   document.querySelectorAll('._dropdown.active ._flat-button').forEach(button => button.addEventListener('click', buttonFunc));
 });
 
-const openTodo = (e) => {
-  document.getElementById('_todo-section').classList.add('active');
-
+const openTodo = () => {
+  let isActive = document.getElementById('_todo-section').className.includes('active');
+  isActive ? document.getElementById('_todo-section').classList.remove('active') : document.getElementById('_todo-section').classList.add('active');
 }
 
+document.getElementById('_todo-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
+
+const autoSave = (e) => {
+  console.log(e);
+  e.target.parentNode.querySelector('.__auto-save').classList.add('active');
+  setTimeout(() => {
+    alert('Autosaved Successfully');
+    e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
+  }, 5000);
+}
