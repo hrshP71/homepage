@@ -1,0 +1,127 @@
+body{
+  background-color: #121212;
+}
+*, *::after, *::before{
+  transition: all .2s ease-in-out;
+  box-sizing: border-box;
+}
+._search-bar-wrapper{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  opacity: .5;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  display: flex;
+  align-items: flex-start;
+}
+._search-bar-wrapper.active{
+  top: 50%;
+  opacity: 1;
+}
+._search-bar{
+  display: flex;
+  width: 100%;
+}
+._flat-button{
+  background: transparent;
+  border: none;
+  display: none;
+  line-height: .5;
+  outline: none;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  padding: 12px;
+}
+._flat-button._is-visible{
+  display: flex;
+}
+._flat-button svg{
+  margin: auto;
+}
+._flat-button:active,._flat-button:visited{
+  border:none;
+  outline: none;
+}
+
+._search-bar input{
+  padding: 12px 16px;
+  appearance: none;
+  border:none;
+  width: 100%;
+  color: white;
+  background-color: transparent;
+}
+._search-bar ._input-wrapper{
+  position: relative;
+  flex: 1 1 80%;
+}
+._search-bar ._input-wrapper::after{
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  height: 2px;
+  left: 0;
+  width: 0;
+  background: linear-gradient(to right,#dbee00, #3311ad);
+}
+._search-bar ._input-wrapper.active::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 2px;
+  width: 100%;
+}
+
+._search-bar input:focus{
+  outline: none;
+  border:none;
+}
+._search-bar-wrapper ._dropdown{
+  position: absolute;
+  left: -80px;
+  top: -25px;
+  border: 2px solid transparent;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  border-radius: 6px;
+  max-width: 70px;
+  max-height: 78px;
+  overflow: hidden;
+  cursor: pointer;
+}
+._search-bar-wrapper ._dropdown > svg{
+  margin: auto;
+  display: none;
+}
+._search-bar-wrapper ._dropdown > svg:first-child{
+  display: block;
+}
+._search-bar-wrapper ._dropdown.active > svg{
+  display: block;
+}
+._search-bar-wrapper ._dropdown.active{
+  max-height: initial;
+  border: 2px solid white;
+}
+form #_search___button{
+  background: linear-gradient(45deg, transparent 50%, #3311ad 60%, #dbee00 80%);
+  transition: background-position .2s ease-in;
+  background-size: 300% 300%;
+  background-position: 0% 0%;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 20px;
+  height: 30px;
+  border-radius: 2px;
+  margin: 0 0 -13px 15px;
+  flex: 1 1 20%;
+  align-self: center;
+}
+
+form #_search___button:hover{
+  background-position: 100% 100%;
+}
