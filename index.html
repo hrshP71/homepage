@@ -13,11 +13,13 @@
          </button>
       </aside>
       <section id="_todo-section" class="_sections">
-         <div class="__section-item">
-            <input oninput="return autoSave(event)" disabled="true" value="Example"/>
-            <textarea oninput="return autoSave(event)" disabled="true" value=""> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error placeat dicta nulla officiis veniam impedit nam tempora? Excepturi ab pariatur, sed ut quidem perferendis praesentium dolorum quisquam illo, enim nisi. </textarea>
+         <div default data-index="0" class="__section-item active">
+            <input placeholder="Title" oninput="return typing(event)" onblur="return autoSave(event)" disabled="true"/>
+            <!-- try without (event) -->
+            <textarea placeholder="Description" oninput="return typing(event)" onblur="return autoSave(event)" disabled="true" value=""></textarea>
             <div class="__auto-save" disabled="true"></div>
          </div>
+         <button class="__add-todo" onclick="return addTodo(event)"> </button>
       </section>
       <main>
          <div class="_search-bar-wrapper">

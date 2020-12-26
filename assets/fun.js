@@ -23,7 +23,6 @@ const noBorder = () => {
 
 const buttonFunc = (e) => {
   e.stopPropagation();
-  console.log(e.target.dataset);
   document.querySelectorAll('._dropdown.active ._flat-button').forEach(button => button.classList.remove('_is-visible'));
   document.querySelector(`._dropdown ._flat-button[data-area=${e.target.dataset.area}]`).classList.add('_is-visible');
   document.querySelector('._search-bar ._input-wrapper input').placeholder = `Search on ${e.target.dataset.area}`;
@@ -38,17 +37,81 @@ document.querySelector('._dropdown').addEventListener('click', () => {
   document.querySelectorAll('._dropdown.active ._flat-button').forEach(button => button.addEventListener('click', buttonFunc));
 });
 
-const openTodo = () => {
-  let isActive = document.getElementById('_todo-section').className.includes('active');
-  isActive ? document.getElementById('_todo-section').classList.remove('active') : document.getElementById('_todo-section').classList.add('active');
-}
+let isTyping = false;
+let title = '';
+let description = '';
 
+const typing = (e) => {
+  if (e.target.nodeName === "TEXTAREA") {
+    title = e.target.previousElementSibling.value;
+    description = e.target.value;
+  } else {
+    title = e.target.value
+    description = e.target.nextElementSibling.value;
+  };
+
+  isTyping = true;
+  e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
+  window.clearTimeout(timeout);
+};
+
+let timeout;
+const Wilmut = document.querySelector('.__section-item[data-index="0"]');
 document.getElementById('_todo-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
 
 const autoSave = (e) => {
+  isTyping = false;
   e.target.parentNode.querySelector('.__auto-save').classList.add('active');
+  const index = e.target.parentNode.dataset.index;
+  if (!isTyping) {
+    timeout = window.setTimeout(() => {
+      localStorage.setItem(`todos${index}`, JSON.stringify({ title: title, description: description }));
+      e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
+    }, 5000);
+  }
+  else {
+    window.clearTimeout(timeout);
+  }
+}
+const addTodo = (e, title, description, index) => {
+  const Dolly = Wilmut.cloneNode(true);
+  Dolly.classList.remove('active');
+  let howManyChilds = 0;
+  let newClone = document.createElement('div');
+  if (title || description) {
+    Dolly.querySelector('input').value = title;
+    Dolly.querySelector('textarea').value = description;
+  }
+  if (e) {
+    howManyChilds = e.target.parentNode.querySelectorAll('.__section-item').length - 1;
+    Dolly.setAttribute('data-index', howManyChilds + 1);
+    e.target.parentNode.insertBefore(Dolly, e.target)
+    newClone = document.querySelector(`.__section-item[data-index="${howManyChilds + 1}`);
+  }
+  else {
+    const button = document.querySelector('.__add-todo');
+    let defaultEl = document.querySelector('[default]');
+    defaultEl ? defaultEl.remove() : null;
+    Dolly.setAttribute('data-index', index);
+    Dolly.removeAttribute('default');
+    button.parentNode.insertBefore(Dolly, button);
+    console.log(button);
+    newClone = document.querySelector(`.__section-item[data-index="${index}`);
+  }
   setTimeout(() => {
-    console.log('autosaved successfully');
-    e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
-  }, 5000);
+    newClone.classList.add('active');
+  }, 100);
+  document.getElementById('_todo-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
+}
+
+const openTodo = () => {
+  let isActive = document.getElementById('_todo-section').className.includes('active');
+  isActive ? document.getElementById('_todo-section').classList.remove('active') : document.getElementById('_todo-section').classList.add('active');
+  const items = { ...localStorage };
+  Object.entries(items).forEach(item => {
+    const [key, value] = item;
+    if (key.includes('todos')) {
+      addTodo(null, JSON.parse(value).title, JSON.parse(value).description, key.toString().replace('todos', ''));
+    }
+  })
 }

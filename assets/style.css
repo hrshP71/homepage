@@ -37,35 +37,99 @@ body {
 }
 ._sections {
   position: fixed;
-  left: -100vw;
-  height: 100vh;
+  left: -200vw;
+  top: 0;
+  bottom: 0;
+  min-height: 100vh;
+  align-items: flex-end;
+  align-content: flex-start;
+  display: flex;
   width: calc(100vw - 50px);
   background-color: #282626;
-  display: flex;
   flex-wrap: wrap;
   z-index: 1;
 }
+
+._sections-webkit-scrollbar {
+  width: .3em;
+}
+
+._sections::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+._sections-webkit-scrollbar-thumb {
+  background-color: #ff4040;
+  outline: none;
+}
+
+._sections .__add-todo{
+  position: relative;
+  margin: 0 4px 4px;
+  background: transparent;
+  border-radius: 8px;
+  border: 1px solid #ff4040;
+  height: 240px;
+  flex:0 0 32%;
+  max-width: 32%;
+}
+._sections .__add-todo:active{
+  border: none;
+  outline: none;
+}
+._sections .__add-todo:focus{
+  outline: none;
+}
+._sections .__add-todo::before{
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  height: 40%;
+  width: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 64, 64, .3);
+}
+._sections .__add-todo::after{
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  height: 10px;
+  width: 40%;
+  border-radius: 10px;
+  background-color: rgba(255, 64, 64, .6);
+}
+
 ._sections.active {
   left: 50px;
+  overflow: auto;
 }
 ._sections .__section-item {
-  flex: 1 1 30%;
-  padding: 12px;
-  box-shadow: 0 0 10px 5px black;
+  display: flex;
+  flex-direction: column;
+  height: 235px;
+  opacity: 0;
   border-radius: 6px;
-  max-width: 30%;
-  max-height: 30%;
+  transition: all .3s ease-in;
+  max-width: calc(33.3333% - 16px);
+  flex: 0 0 calc(33.3333% - 16px);
   overflow: auto;
   margin: 8px;
 }
-._sections .__section-item input {
+._sections .__section-item.active{
+  box-shadow: 0 0 10px 5px black;
+  opacity: 1;
+}
+._sections .__section-item input, ._sections .__section-item input::placeholder{
   background: transparent;
   border: none;
   outline: none;
-  width: 100%;
+  max-width: 100%;
   color: #ff4040;
   font-size: 22px;
-  margin-top: 0;
+  margin: 12px;
 }
 ._sections .__section-item textarea {
   background: transparent;
@@ -73,9 +137,10 @@ body {
   outline: none;
   width: 100%;
   height: 100%;
-  resize: vertical;
+  padding-left: 8px;
   color: white;
-  font-size: 14px;
+  resize: none;
+  font-size: 12px;
 }
 ._sections .__section-item .__auto-save{
   position: sticky;
@@ -88,14 +153,14 @@ body {
 ._sections .__section-item .__auto-save.active{
   animation: autoSave 5s infinite forwards ease-in-out;
 }
-._sections .__section-item::-webkit-scrollbar {
+._sections .__section-item textarea::-webkit-scrollbar {
   width: .3em;
 }
 
-._sections .__section-item::-webkit-scrollbar-track {
+._sections .__section-item textarea::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
-._sections .__section-item::-webkit-scrollbar-thumb {
+._sections .__section-item textarea::-webkit-scrollbar-thumb {
   background-color: #ff4040;
   outline: none;
 }
