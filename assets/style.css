@@ -14,7 +14,7 @@ body {
   box-sizing: border-box;
 }
 /* Start of shared */
-._flat-button {
+.__flat-button {
   background: transparent;
   border: none;
   display: none;
@@ -25,14 +25,14 @@ body {
   justify-content: center;
   padding: 12px;
 }
-._flat-button._is-visible {
+.__flat-button._is-visible {
   display: flex;
 }
-._flat-button svg {
+.__flat-button svg {
   margin: auto;
 }
-._flat-button:active,
-._flat-button:visited {
+.__flat-button:active,
+.__flat-button:visited {
   border: none;
   outline: none;
 }
@@ -159,7 +159,7 @@ body {
   opacity: 1;
 }
 
-._sections .__section-item input, ._sections .__section-item input::placeholder{
+._sections .__section-item input{
   background: transparent;
   padding-right: 40px;
   border: none;
@@ -168,6 +168,9 @@ body {
   color: #ff4040;
   font-size: 18px;
   margin: 12px;
+}
+._sections .__section-item input::placeholder{
+  color: rgba(255, 64, 64, .5);
 }
 ._sections .__section-item textarea {
   background: transparent;
@@ -224,12 +227,12 @@ body {
   top: 50%;
   opacity: 1;
 }
-._search-bar {
+.__search-bar {
   display: flex;
   width: 100%;
 }
 
-._search-bar input {
+.__search-bar input {
   padding: 12px 16px;
   appearance: none;
   border: none;
@@ -237,11 +240,11 @@ body {
   color: white;
   background-color: transparent;
 }
-._search-bar ._input-wrapper {
+.__search-bar .__input-wrapper {
   position: relative;
   flex: 1 1 80%;
 }
-._search-bar ._input-wrapper::after {
+.__search-bar .__input-wrapper::after {
   content: "";
   position: absolute;
   bottom: -2px;
@@ -250,7 +253,7 @@ body {
   width: 0;
   background: linear-gradient(to right, #dbee00, #3311ad);
 }
-._search-bar ._input-wrapper.active::after {
+.__search-bar .__input-wrapper.active::after {
   content: "";
   position: absolute;
   left: 0;
@@ -258,11 +261,11 @@ body {
   width: 100%;
 }
 
-._search-bar input:focus {
+.__search-bar input:focus {
   outline: none;
   border: none;
 }
-._search-bar-wrapper ._dropdown {
+._search-bar-wrapper .__dropdown {
   position: absolute;
   left: -80px;
   top: -25px;
@@ -276,21 +279,21 @@ body {
   overflow: hidden;
   cursor: pointer;
 }
-._search-bar-wrapper ._dropdown > svg {
+._search-bar-wrapper .__dropdown > svg {
   margin: auto;
   display: none;
 }
-._search-bar-wrapper ._dropdown > svg:first-child {
+._search-bar-wrapper .__dropdown > svg:first-child {
   display: block;
 }
-._search-bar-wrapper ._dropdown.active > svg {
+._search-bar-wrapper .__dropdown.active > svg {
   display: block;
 }
-._search-bar-wrapper ._dropdown.active {
+._search-bar-wrapper .__dropdown.active {
   max-height: initial;
   border: 2px solid white;
 }
-form #_search___button {
+form #___search-button {
   background: linear-gradient(45deg, transparent 50%, #3311ad 60%, #dbee00 80%);
   transition: background-position 0.2s ease-in;
   background-size: 300% 300%;
@@ -306,7 +309,7 @@ form #_search___button {
   align-self: center;
 }
 
-form #_search___button:hover {
+form #___search-button:hover {
   background-position: 100% 100%;
 }
 /* end of searchbar */
@@ -330,23 +333,33 @@ form #_search___button:hover {
 }
 ._modal .__modal-content{
   width: 50%;
-  height: 20%;
+  max-height: 80%;
+  overflow: auto;
   position: absolute;
   display: flex;
+  flex-direction: column;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
   background-color: #212121;
   color: white;
+  border-radius: 8px;
+  padding: 25px;
 }
 ._modal .__modal-content label{
   align-self: center;
-  padding-left: 25px;
+  font-size: 13px;
 }
 ._modal .__modal-content input{
   align-self: center;
-  margin: 25px;
   width: 100%;
+  background-color: rgba(255,255,255, 0.6);
+  border-radius: 3px;
+  border: none;
+  margin-bottom: 8px;
+}
+._modal .__modal-content input:focus{
+  outline: none;
 }
 
 /* end of modal */

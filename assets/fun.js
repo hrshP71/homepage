@@ -1,5 +1,13 @@
 let selectedWebsite = 'https://www.google.com/search?q=';
-
+let modalState = '';
+let copyPasteItem = '';
+let isTyping = false;
+let title = '';
+let description = '';
+let indexNo = 0;
+let timeout;
+const Wilmut = document.querySelector('#_todo-section .__section-item[data-index="0"]');
+const Ian = document.querySelector('#_copy-paste-section .__section-item[data-index="0"]');
 window.addEventListener('load', () => {
   const items = { ...localStorage };
   Object.entries(items).forEach(item => {
@@ -13,51 +21,47 @@ window.addEventListener('load', () => {
 const navigate = (e) => {
   e.preventDefault();
   e.stopPropagation();
-  const query = document.getElementById('_search___bar').value.toString();
+  const query = document.getElementById('___search-bar').value.toString();
   if (query) {
     window.location = selectedWebsite + query.trim();
   }
 }
 
 window.addEventListener('load', () => {
-  document.querySelector('._search-bar-wrapper').classList.add('active');
+  document.querySelector('.__search-bar-wrapper').classList.add('active');
 });
 
 const border = () => {
-  document.querySelector('._search-bar ._input-wrapper').classList.add('active');
+  document.querySelector('.__search-bar .__input-wrapper').classList.add('active');
 }
 
 const noBorder = () => {
-  document.querySelector('._search-bar ._input-wrapper').classList.remove('active');
+  document.querySelector('.__search-bar .__input-wrapper').classList.remove('active');
 }
 
 const buttonFunc = (e) => {
   e.stopPropagation();
-  document.querySelectorAll('._dropdown.active ._flat-button').forEach(button => button.classList.remove('_is-visible'));
-  document.querySelector(`._dropdown ._flat-button[data-area=${e.target.dataset.area}]`).classList.add('_is-visible');
-  document.querySelector('._search-bar ._input-wrapper input').placeholder = `Search on ${e.target.dataset.area}`;
+  document.querySelectorAll('.__dropdown.active .__flat-button').forEach(button => button.classList.remove('_is-visible'));
+  document.querySelector(`.__dropdown .__flat-button[data-area=${e.target.dataset.area}]`).classList.add('_is-visible');
+  document.querySelector('.__search-bar .__input-wrapper input').placeholder = `Search on ${e.target.dataset.area}`;
   selectedWebsite = e.target.dataset.query;
-  document.querySelector('._dropdown').classList.remove('active');
-  document.querySelectorAll('._dropdown ._flat-button').forEach(button => button.removeEventListener('click', buttonFunc));
+  document.querySelector('.__dropdown').classList.remove('active');
+  document.querySelectorAll('.__dropdown .__flat-button').forEach(button => button.removeEventListener('click', buttonFunc));
 }
 
-document.querySelector('._dropdown').addEventListener('click', () => {
-  document.querySelector('._dropdown').classList.add('active');
-  document.querySelectorAll('._dropdown.active ._flat-button').forEach(button => button.classList.add('_is-visible'));
-  document.querySelectorAll('._dropdown.active ._flat-button').forEach(button => button.addEventListener('click', buttonFunc));
+document.querySelector('.__dropdown').addEventListener('click', () => {
+  document.querySelector('.__dropdown').classList.add('active');
+  document.querySelectorAll('.__dropdown.active .__flat-button').forEach(button => button.classList.add('_is-visible'));
+  document.querySelectorAll('.__dropdown.active .__flat-button').forEach(button => button.addEventListener('click', buttonFunc));
 });
-
-let isTyping = false;
-let title = '';
-let description = '';
 
 const typing = (e, t) => {
   if (e.target.nodeName === "TEXTAREA") {
-    title = e.target.previousElementSibling.value;
+    title = e.target.previousElementSibling.value || '';
     description = e.target.value;
   } else {
     title = e.target.value
-    description = e.target.nextElementSibling.value;
+    description = e.target.nextElementSibling.value || '';
   };
 
   isTyping = true;
@@ -67,8 +71,6 @@ const typing = (e, t) => {
   }
 };
 
-let timeout;
-const Wilmut = document.querySelector('.__section-item[data-index="0"]');
 document.getElementById('_todo-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
 
 const autoSave = (e) => {
@@ -128,18 +130,76 @@ const openCopyPaste = () => {
   let isActive = document.getElementById('_copy-paste-section').className.includes('active');
   isActive ? document.getElementById('_copy-paste-section').classList.remove('active') : document.getElementById('_copy-paste-section').classList.add('active');
 }
-let indexNo = 0;
+
+const cleanModal = () => {
+  [...document.querySelector('#_modal .__modal-content').childNodes].forEach(el => { if (el.nodeName !== 'DIV') { el.remove() } });
+};
 
 const openModal = (e) => {
   indexNo = e.target.parentNode.parentNode.dataset.index;
-  document.getElementById('modal').classList.add('active');
+  document.getElementById('_modal').classList.add('active');
+  cleanModal();
+  const label = document.createElement('label');
+  label.setAttribute('for', 'variable');
+  label.innerText = 'Enter a variable';
+  const input = document.createElement('input');
+  input.setAttribute('id', 'modalInput');
+  document.querySelector('#_modal .__modal-content').appendChild(label);
+  document.querySelector('#_modal .__modal-content').appendChild(input);
+  modalState = 'input';
 }
+
+const populateModal = (arr) => {
+  [...new Set(arr)].forEach(elementName => {
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+    const textArr = elementName.replace('/#{', '').split('');
+    textArr.pop();
+    const cleanText = textArr.join('').replace('#{', '');
+    label.setAttribute('for', `replace-${cleanText.replace(/ /g, '')}`);
+    label.innerText = `Enter a variable for: ${elementName}`;
+    input.setAttribute('id', `replace-${cleanText.replace(/ /g, '')}`);
+    document.querySelector('#_modal .__modal-content').appendChild(label);
+    document.querySelector('#_modal .__modal-content').appendChild(input);
+  });
+  modalState = 'replace';
+};
 const closeModal = () => {
-  document.getElementById('modal').classList.remove('active');
+  document.getElementById('_modal').classList.remove('active');
+  cleanModal();
 }
 const registerVariable = () => {
-  document.getElementById('modal').classList.remove('active');
-  let variableInput = document.getElementById('modalInput').value;
-  variableInput = `#{${variableInput.trim()}}`;
-  document.querySelector(`#_copy-paste-section .__section-item[data-index="${indexNo}"] textarea`).value += variableInput;
+  if (modalState !== 'replace') {
+    document.getElementById('_modal').classList.remove('active');
+    let variableInput = document.getElementById('modalInput').value;
+    variableInput = `#{${variableInput.trim()}}`;
+    cleanModal();
+    document.querySelector(`#_copy-paste-section .__section-item[data-index="${indexNo}"] textarea`).value += variableInput;
+  }
+  else {
+    [...document.getElementById('_modal').querySelector('.__modal-content').childNodes].forEach(el => {
+      if (el.nodeName === "LABEL") {
+        copyPasteItem = copyPasteItem.replaceAll(el.innerText.replace('Enter a variable for: ', ''), el.nextElementSibling.value);
+      }
+    });
+    document.querySelector(`#_copy-paste-section .__section-item[data-index="${indexNo}"] textarea`).value = copyPasteItem;
+    closeModal();
+  }
+}
+const copyText = (el) => {
+  el.select();
+  el.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Copied the text: " + el.value);
+}
+const openReplaceModal = (arr) => {
+  document.getElementById('_modal').classList.add('active');
+  populateModal(arr);
+}
+
+const copyWithReplace = (e) => {
+  const value = e.target.parentNode.previousElementSibling.value;
+  copyPasteItem = value;
+  const valueArr = value.match(/#{([^}]*)}/g);
+  value.includes('#{') ? openReplaceModal(valueArr) : copyText(e.target.parentNode.previousElementSibling);
 }
