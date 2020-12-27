@@ -6,8 +6,8 @@ let title = '';
 let description = '';
 let indexNo = 0;
 let timeout;
-const Wilmut = document.querySelector('#_todo-section .__section-item[data-index="0"]');
-const Ian = document.querySelector('#_copy-paste-section .__section-item[data-index="0"]');
+const Wilmut = document.querySelector('#todo-section ._section-item[data-index="0"]');
+const Ian = document.querySelector('#copy-paste-section ._section-item[data-index="0"]');
 window.addEventListener('load', () => {
   const items = { ...localStorage };
   Object.entries(items).forEach(item => {
@@ -21,38 +21,38 @@ window.addEventListener('load', () => {
 const navigate = (e) => {
   e.preventDefault();
   e.stopPropagation();
-  const query = document.getElementById('___search-bar').value.toString();
+  const query = document.getElementById('____search-input').value.toString();
   if (query) {
     window.location = selectedWebsite + query.trim();
   }
 }
 
 window.addEventListener('load', () => {
-  document.querySelector('.__search-bar-wrapper').classList.add('active');
+  document.querySelector('._search-bar-wrapper').classList.add('_is-active');
 });
 
 const border = () => {
-  document.querySelector('.__search-bar .__input-wrapper').classList.add('active');
+  document.querySelector('.__search-bar .___input-wrapper').classList.add('___is_active');
 }
 
 const noBorder = () => {
-  document.querySelector('.__search-bar .__input-wrapper').classList.remove('active');
+  document.querySelector('.__search-bar .___input-wrapper').classList.remove('___is_active');
 }
 
 const buttonFunc = (e) => {
   e.stopPropagation();
-  document.querySelectorAll('.__dropdown.active .__flat-button').forEach(button => button.classList.remove('_is-visible'));
-  document.querySelector(`.__dropdown .__flat-button[data-area=${e.target.dataset.area}]`).classList.add('_is-visible');
-  document.querySelector('.__search-bar .__input-wrapper input').placeholder = `Search on ${e.target.dataset.area}`;
+  document.querySelectorAll('.__dropdown.__is-active .g_flat-button').forEach(button => button.classList.remove('g_is-visible'));
+  document.querySelector(`.__dropdown .g_flat-button[data-area=${e.target.dataset.area}]`).classList.add('g_is-visible');
+  document.querySelector('.__search-bar .___input-wrapper input').placeholder = `Search on ${e.target.dataset.area}`;
   selectedWebsite = e.target.dataset.query;
-  document.querySelector('.__dropdown').classList.remove('active');
-  document.querySelectorAll('.__dropdown .__flat-button').forEach(button => button.removeEventListener('click', buttonFunc));
+  document.querySelector('.__dropdown').classList.remove('__is-active');
+  document.querySelectorAll('.__dropdown .g_flat-button').forEach(button => button.removeEventListener('click', buttonFunc));
 }
 
 document.querySelector('.__dropdown').addEventListener('click', () => {
-  document.querySelector('.__dropdown').classList.add('active');
-  document.querySelectorAll('.__dropdown.active .__flat-button').forEach(button => button.classList.add('_is-visible'));
-  document.querySelectorAll('.__dropdown.active .__flat-button').forEach(button => button.addEventListener('click', buttonFunc));
+  document.querySelector('.__dropdown').classList.add('__is-active');
+  document.querySelectorAll('.__dropdown.__is-active .g_flat-button').forEach(button => button.classList.add('g_is-visible'));
+  document.querySelectorAll('.__dropdown.__is-active .g_flat-button').forEach(button => button.addEventListener('click', buttonFunc));
 });
 
 const typing = (e, t) => {
@@ -66,21 +66,21 @@ const typing = (e, t) => {
 
   isTyping = true;
   if (!t) {
-    e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
+    e.target.parentNode.querySelector('.__auto-save').classList.remove('__is-active');
     window.clearTimeout(timeout);
   }
 };
 
-document.getElementById('_todo-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
+document.getElementById('todo-section').querySelectorAll('._section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
 
 const autoSave = (e) => {
   isTyping = false;
-  e.target.parentNode.querySelector('.__auto-save').classList.add('active');
+  e.target.parentNode.querySelector('.__auto-save').classList.add('__is-active');
   const index = e.target.parentNode.dataset.index;
   if (!isTyping) {
     timeout = window.setTimeout(() => {
       localStorage.setItem(`todos${index}`, JSON.stringify({ title: title, description: description }));
-      e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
+      e.target.parentNode.querySelector('.__auto-save').classList.remove('__is-active');
     }, 5000);
   }
   else {
@@ -89,7 +89,7 @@ const autoSave = (e) => {
 }
 const addTodo = (e, title, description, index) => {
   const Dolly = Wilmut.cloneNode(true);
-  Dolly.classList.remove('active');
+  Dolly.classList.remove('_is-active');
   let howManyChilds = 0;
   let newClone = document.createElement('div');
   if (title || description) {
@@ -97,55 +97,55 @@ const addTodo = (e, title, description, index) => {
     Dolly.querySelector('textarea').value = description;
   }
   if (e) {
-    howManyChilds = e.target.parentNode.querySelectorAll('.__section-item').length - 1;
+    howManyChilds = e.target.parentNode.querySelectorAll('._section-item').length - 1;
     Dolly.setAttribute('data-index', howManyChilds + 1);
     e.target.parentNode.insertBefore(Dolly, e.target)
-    newClone = document.querySelector(`.__section-item[data-index="${howManyChilds + 1}`);
+    newClone = document.querySelector(`._section-item[data-index="${howManyChilds + 1}`);
   }
   else {
-    const button = document.querySelector('.__add-todo');
+    const button = document.querySelector('._add-todo');
     let defaultEl = document.querySelector('[default]');
     defaultEl ? defaultEl.remove() : null;
     Dolly.setAttribute('data-index', index);
     Dolly.removeAttribute('default');
     button.parentNode.insertBefore(Dolly, button);
-    newClone = document.querySelector(`.__section-item[data-index="${index}`);
+    newClone = document.querySelector(`._section-item[data-index="${index}`);
   }
   setTimeout(() => {
-    newClone.classList.add('active');
+    newClone.classList.add('_is-active');
   }, 100);
-  document.getElementById('_todo-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
+  document.getElementById('todo-section').querySelectorAll('._section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
 }
 
 const openTodo = () => {
-  let isActive = document.getElementById('_todo-section').className.includes('active');
-  isActive ? document.getElementById('_todo-section').classList.remove('active') : document.getElementById('_todo-section').classList.add('active');
+  let isActive = document.getElementById('todo-section').className.includes('is-active');
+  isActive ? document.getElementById('todo-section').classList.remove('is-active') : document.getElementById('todo-section').classList.add('is-active');
 }
 
 const addCopyPaste = () => { };
 
-document.getElementById('_copy-paste-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
+document.getElementById('copy-paste-section').querySelectorAll('._section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
 
 const openCopyPaste = () => {
-  let isActive = document.getElementById('_copy-paste-section').className.includes('active');
-  isActive ? document.getElementById('_copy-paste-section').classList.remove('active') : document.getElementById('_copy-paste-section').classList.add('active');
+  let isActive = document.getElementById('copy-paste-section').className.includes('is-active');
+  isActive ? document.getElementById('copy-paste-section').classList.remove('is-active') : document.getElementById('copy-paste-section').classList.add('is-active');
 }
 
 const cleanModal = () => {
-  [...document.querySelector('#_modal .__modal-content').childNodes].forEach(el => { if (el.nodeName !== 'DIV') { el.remove() } });
+  [...document.querySelector('#modal ._modal-content').childNodes].forEach(el => { if (el.nodeName !== 'DIV') { el.remove() } });
 };
 
 const openModal = (e) => {
   indexNo = e.target.parentNode.parentNode.dataset.index;
-  document.getElementById('_modal').classList.add('active');
+  document.getElementById('modal').classList.add('is-active');
   cleanModal();
   const label = document.createElement('label');
   label.setAttribute('for', 'variable');
   label.innerText = 'Enter a variable';
   const input = document.createElement('input');
   input.setAttribute('id', 'modalInput');
-  document.querySelector('#_modal .__modal-content').appendChild(label);
-  document.querySelector('#_modal .__modal-content').appendChild(input);
+  document.querySelector('#modal ._modal-content').appendChild(label);
+  document.querySelector('#modal ._modal-content').appendChild(input);
   modalState = 'input';
 }
 
@@ -159,30 +159,30 @@ const populateModal = (arr) => {
     label.setAttribute('for', `replace-${cleanText.replace(/ /g, '')}`);
     label.innerText = `Enter a variable for: ${elementName}`;
     input.setAttribute('id', `replace-${cleanText.replace(/ /g, '')}`);
-    document.querySelector('#_modal .__modal-content').appendChild(label);
-    document.querySelector('#_modal .__modal-content').appendChild(input);
+    document.querySelector('#modal ._modal-content').appendChild(label);
+    document.querySelector('#modal ._modal-content').appendChild(input);
   });
   modalState = 'replace';
 };
 const closeModal = () => {
-  document.getElementById('_modal').classList.remove('active');
+  document.getElementById('modal').classList.remove('is-active');
   cleanModal();
 }
 const registerVariable = () => {
   if (modalState !== 'replace') {
-    document.getElementById('_modal').classList.remove('active');
+    document.getElementById('modal').classList.remove('is-active');
     let variableInput = document.getElementById('modalInput').value;
     variableInput = `#{${variableInput.trim()}}`;
     cleanModal();
-    document.querySelector(`#_copy-paste-section .__section-item[data-index="${indexNo}"] textarea`).value += variableInput;
+    document.querySelector(`#copy-paste-section ._section-item[data-index="${indexNo}"] textarea`).value += variableInput;
   }
   else {
-    [...document.getElementById('_modal').querySelector('.__modal-content').childNodes].forEach(el => {
+    [...document.getElementById('modal').querySelector('._modal-content').childNodes].forEach(el => {
       if (el.nodeName === "LABEL") {
         copyPasteItem = copyPasteItem.replaceAll(el.innerText.replace('Enter a variable for: ', ''), el.nextElementSibling.value);
       }
     });
-    document.querySelector(`#_copy-paste-section .__section-item[data-index="${indexNo}"] textarea`).value = copyPasteItem;
+    document.querySelector(`#copy-paste-section ._section-item[data-index="${indexNo}"] textarea`).value = copyPasteItem;
     closeModal();
   }
 }
@@ -193,7 +193,7 @@ const copyText = (el) => {
   alert("Copied the text: " + el.value);
 }
 const openReplaceModal = (arr) => {
-  document.getElementById('_modal').classList.add('active');
+  document.getElementById('modal').classList.add('is-active');
   populateModal(arr);
 }
 
