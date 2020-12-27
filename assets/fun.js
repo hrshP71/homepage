@@ -32,11 +32,11 @@ window.addEventListener('load', () => {
 });
 
 const border = () => {
-  document.querySelector('.__search-bar .___input-wrapper').classList.add('___is_active');
+  document.querySelector('.__search-bar .___input-wrapper').classList.add('___is-active');
 }
 
 const noBorder = () => {
-  document.querySelector('.__search-bar .___input-wrapper').classList.remove('___is_active');
+  document.querySelector('.__search-bar .___input-wrapper').classList.remove('___is-active');
 }
 
 const buttonFunc = (e) => {
@@ -87,6 +87,9 @@ const autoSave = (e) => {
     window.clearTimeout(timeout);
   }
 }
+
+const deleteTodo = (e) => { };
+
 const addTodo = (e, title, description, index) => {
   const Dolly = Wilmut.cloneNode(true);
   Dolly.classList.remove('_is-active');

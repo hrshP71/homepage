@@ -22,8 +22,8 @@
             <input placeholder="Title" oninput="return typing(event)" onblur="return autoSave(event)" disabled="true"/>
             <textarea placeholder="Description" oninput="return typing(event)" onblur="return autoSave(event)" disabled="true" value=""></textarea>
             <div class="g_action-button-wrapper">
-               <button class="g_action-button">&#10003;</button>
-               <button class="g_action-button">&times;</button>
+               <button class="g_action-button" onclick="return autoSave(event)">&#10003;</button>
+               <button class="g_action-button" onclick="return deleteTodo(event)">&times;</button>
             </div>
             <div class="__auto-save" disabled="true"></div>
          </div>
