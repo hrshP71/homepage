@@ -9,6 +9,7 @@ body {
 *,
 *::after,
 *::before {
+  font-family: 'Nunito', sans-serif;
   transition: all 0.2s ease-in-out;
   box-sizing: border-box;
 }
@@ -35,6 +36,40 @@ body {
   border: none;
   outline: none;
 }
+.___actions-button-wrapper{
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: block;
+}
+.___actions-button-wrapper .____action-button{
+  background-color: transparent;
+  color: #ff4040;
+  border-radius: 2px;
+  border: none;
+  outline: none;
+}
+.___actions-button-wrapper .____action-button:hover{
+  background-color: rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+.___actions-button-wrapper .____action-button:focus{
+  border: none;
+  outline: none;
+}
+/* end of shared */
+
+/* start of sections */
+
+._side-menu-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 100vh;
+  border-right: 2px solid white;
+}
+
 ._sections {
   position: fixed;
   left: -200vw;
@@ -107,6 +142,7 @@ body {
   overflow: auto;
 }
 ._sections .__section-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 235px;
@@ -122,13 +158,15 @@ body {
   box-shadow: 0 0 10px 5px black;
   opacity: 1;
 }
+
 ._sections .__section-item input, ._sections .__section-item input::placeholder{
   background: transparent;
+  padding-right: 40px;
   border: none;
   outline: none;
   max-width: 100%;
   color: #ff4040;
-  font-size: 22px;
+  font-size: 18px;
   margin: 12px;
 }
 ._sections .__section-item textarea {
@@ -169,7 +207,7 @@ body {
     width: 100%;
   }
 }
-/* end of shared */
+/* end of sections */
 
 /* start of  searchbar */
 ._search-bar-wrapper {
@@ -273,11 +311,42 @@ form #_search___button:hover {
 }
 /* end of searchbar */
 
-._side-menu-wrapper {
+/* start of modal */
+
+._modal{
   position: fixed;
-  top: 0;
   left: 0;
-  width: 50px;
+  bottom: -200vh;
+  right: 0;
+  opacity: .7;
+  width: 100vw;
   height: 100vh;
-  border-right: 2px solid white;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 2;
 }
+._modal.active{
+  bottom: 0;
+  opacity: 1;
+}
+._modal .__modal-content{
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  display: flex;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  background-color: #212121;
+  color: white;
+}
+._modal .__modal-content label{
+  align-self: center;
+  padding-left: 25px;
+}
+._modal .__modal-content input{
+  align-self: center;
+  margin: 25px;
+  width: 100%;
+}
+
+/* end of modal */

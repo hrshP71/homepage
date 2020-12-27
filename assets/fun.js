@@ -1,5 +1,15 @@
 let selectedWebsite = 'https://www.google.com/search?q=';
 
+window.addEventListener('load', () => {
+  const items = { ...localStorage };
+  Object.entries(items).forEach(item => {
+    const [key, value] = item;
+    if (key.includes('todos')) {
+      addTodo(null, JSON.parse(value).title, JSON.parse(value).description, key.toString().replace('todos', ''));
+    }
+  })
+});
+
 const navigate = (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -41,7 +51,7 @@ let isTyping = false;
 let title = '';
 let description = '';
 
-const typing = (e) => {
+const typing = (e, t) => {
   if (e.target.nodeName === "TEXTAREA") {
     title = e.target.previousElementSibling.value;
     description = e.target.value;
@@ -51,8 +61,10 @@ const typing = (e) => {
   };
 
   isTyping = true;
-  e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
-  window.clearTimeout(timeout);
+  if (!t) {
+    e.target.parentNode.querySelector('.__auto-save').classList.remove('active');
+    window.clearTimeout(timeout);
+  }
 };
 
 let timeout;
@@ -95,7 +107,6 @@ const addTodo = (e, title, description, index) => {
     Dolly.setAttribute('data-index', index);
     Dolly.removeAttribute('default');
     button.parentNode.insertBefore(Dolly, button);
-    console.log(button);
     newClone = document.querySelector(`.__section-item[data-index="${index}`);
   }
   setTimeout(() => {
@@ -107,11 +118,28 @@ const addTodo = (e, title, description, index) => {
 const openTodo = () => {
   let isActive = document.getElementById('_todo-section').className.includes('active');
   isActive ? document.getElementById('_todo-section').classList.remove('active') : document.getElementById('_todo-section').classList.add('active');
-  const items = { ...localStorage };
-  Object.entries(items).forEach(item => {
-    const [key, value] = item;
-    if (key.includes('todos')) {
-      addTodo(null, JSON.parse(value).title, JSON.parse(value).description, key.toString().replace('todos', ''));
-    }
-  })
+}
+
+const addCopyPaste = () => { };
+
+document.getElementById('_copy-paste-section').querySelectorAll('.__section-item').forEach(section => section.addEventListener('click', (e) => { e.target.childNodes.disabled = false; e.target.disabled = false; }));
+
+const openCopyPaste = () => {
+  let isActive = document.getElementById('_copy-paste-section').className.includes('active');
+  isActive ? document.getElementById('_copy-paste-section').classList.remove('active') : document.getElementById('_copy-paste-section').classList.add('active');
+}
+let indexNo = 0;
+
+const openModal = (e) => {
+  indexNo = e.target.parentNode.parentNode.dataset.index;
+  document.getElementById('modal').classList.add('active');
+}
+const closeModal = () => {
+  document.getElementById('modal').classList.remove('active');
+}
+const registerVariable = () => {
+  document.getElementById('modal').classList.remove('active');
+  let variableInput = document.getElementById('modalInput').value;
+  variableInput = `#{${variableInput.trim()}}`;
+  document.querySelector(`#_copy-paste-section .__section-item[data-index="${indexNo}"] textarea`).value += variableInput;
 }
